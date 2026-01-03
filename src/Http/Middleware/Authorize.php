@@ -1,10 +1,10 @@
 <?php
 
-namespace :namespace_vendor\:namespace_tool_name\Http\Middleware;
+namespace Opscale\NovaMCP\Http\Middleware;
 
 use Illuminate\Http\Request;
-use :namespace_vendor\:namespace_tool_name\Tool;
 use Laravel\Nova\Nova;
+use Opscale\NovaMCP\Tool;
 
 class Authorize
 {
