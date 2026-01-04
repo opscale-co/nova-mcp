@@ -2,6 +2,11 @@
 
 All notable changes to opscale-co/nova-api will be documented in this file.
 
+## <small>1.1.2 (2026-01-04)</small>
+
+* Merge branch 'main' of https://github.com/opscale-co/nova-mcp ([e52c9d7](https://github.com/opscale-co/nova-mcp/commit/e52c9d7))
+* refactor(tools): name changes ([0cf2a51](https://github.com/opscale-co/nova-mcp/commit/0cf2a51))
+
 ## <small>1.1.1 (2026-01-04)</small>
 
 * Merge branch 'main' of https://github.com/opscale-co/nova-mcp ([9c97747](https://github.com/opscale-co/nova-mcp/commit/9c97747))
