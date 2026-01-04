@@ -2,6 +2,16 @@
 
 All notable changes to opscale-co/nova-api will be documented in this file.
 
+## <small>1.1.1 (2026-01-04)</small>
+
+* Merge branch 'main' of https://github.com/opscale-co/nova-mcp ([9c97747](https://github.com/opscale-co/nova-mcp/commit/9c97747))
+* fix(resourcesresolver): changed Nova resources resolution and added MCP resources loading ([a978ff3](https://github.com/opscale-co/nova-mcp/commit/a978ff3))
+
+
+### BREAKING CHANGE
+
+* ResourcesResolver gets different classes
+
 ## 1.1.0 (2026-01-04)
 
 * Merge branch 'main' of https://github.com/opscale-co/nova-mcp ([384581e](https://github.com/opscale-co/nova-mcp/commit/384581e))
