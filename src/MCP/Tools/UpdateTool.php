@@ -13,9 +13,14 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
 use Opscale\NovaMCP\MCP\Concerns\ResolvesModel;
 
-class UpdateResource extends Tool
+class UpdateTool extends Tool
 {
     use ResolvesModel;
+
+    protected string $name = 'update-resource';
+
+    protected string $title = 'Update Resource';
+
     protected string $description = 'Modify an existing item in your collection. Your changes will be automatically checked for correctness before saving.';
 
     /**

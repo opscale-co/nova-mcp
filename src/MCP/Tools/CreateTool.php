@@ -12,9 +12,14 @@ use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
 use Opscale\NovaMCP\MCP\Concerns\ResolvesModel;
 
-class CreateResource extends Tool
+class CreateTool extends Tool
 {
     use ResolvesModel;
+
+    protected string $name = 'create-resource';
+
+    protected string $title = 'Create Resource';
+
     protected string $description = 'Add a new item to your collection. Your data will be automatically checked for correctness before saving.';
 
     /**

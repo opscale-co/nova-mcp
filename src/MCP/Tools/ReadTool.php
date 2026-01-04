@@ -20,9 +20,14 @@ use Spatie\QueryBuilder\Exceptions\InvalidIncludeQuery;
 use Spatie\QueryBuilder\Exceptions\InvalidSortQuery;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class ReadResource extends Tool
+class ReadTool extends Tool
 {
     use ResolvesModel;
+
+    protected string $name = 'read-resource';
+
+    protected string $title = 'Read Resource';
+
     protected string $description = 'Search and view your items with flexible filtering, sorting, and relationship options. Uses JSON:API conventions for querying. Specify what you want to find and how you want to see it.';
 
     /**

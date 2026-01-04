@@ -9,10 +9,10 @@ use Opscale\NovaMCP\Contracts\ToolsResolver;
 use Opscale\NovaMCP\MCP\Prompts\BusinessTaskPrompt;
 use Opscale\NovaMCP\MCP\Resources\DomainResource;
 use Opscale\NovaMCP\MCP\Resources\ProcessResource;
-use Opscale\NovaMCP\MCP\Tools\CreateResource;
-use Opscale\NovaMCP\MCP\Tools\DeleteResource;
-use Opscale\NovaMCP\MCP\Tools\ReadResource;
-use Opscale\NovaMCP\MCP\Tools\UpdateResource;
+use Opscale\NovaMCP\MCP\Tools\CreateTool;
+use Opscale\NovaMCP\MCP\Tools\DeleteTool;
+use Opscale\NovaMCP\MCP\Tools\ReadTool;
+use Opscale\NovaMCP\MCP\Tools\UpdateTool;
 
 /**
  * Platform Server
@@ -67,10 +67,10 @@ INSTRUCTIONS;
      * @var array<int, class-string<\Laravel\Mcp\Server\Tool>>
      */
     protected array $tools = [
-        CreateResource::class,
-        ReadResource::class,
-        UpdateResource::class,
-        DeleteResource::class,
+        CreateTool::class,
+        ReadTool::class,
+        UpdateTool::class,
+        DeleteTool::class,
     ];
 
     /**
