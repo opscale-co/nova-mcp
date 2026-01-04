@@ -1,88 +1,89 @@
 {
-    "name": "opscale-co/nova-mcp",
-    "description": "Enable a MCP server for your Laravel Nova package",
-    "keywords": [
-        "laravel",
-        "nova",
-        "package",
-        "tool",
-        "opscale"
-    ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://nova.laravel.com"
-        }
-    ],
-    "homepage": "https://github.com/opscale-co/nova-mcp",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Opscale",
-            "email": "development@opscale.co",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "php": ">=8.2",
-        "butschster/dbml-parser": "^0.3.0",
-        "laravel/mcp": "^0.5.1",
-        "opscale-co/actions": "^1.0",
-        "opscale-co/nova-package-tools": "^1.0",
-        "spatie/laravel-query-builder": "^6.3",
-        "theriddleofenigma/laravel-model-validation": "^1.6"
-    },
-    "autoload": {
-        "psr-4": {
-            "Opscale\\NovaMCP\\": "src/",
-            "Workbench\\App\\": "workbench/app/",
-            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
-            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Opscale\\NovaMCP\\Tests\\": "tests"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Opscale\\NovaMCP\\ToolServiceProvider"
-            ]
-        }
-    },
-    "config": {
-        "sort-packages": true
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require-dev": {
-        "laravel/nova": "^5.4",
-        "laravel/nova-devtool": "^1.0",
-        "phpunit/phpunit": "^10.5",
-        "tightenco/duster": "^2.7"
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "@clear",
-            "@prepare"
-        ],
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
-        "prepare": "@php vendor/bin/testbench package:discover --ansi",
-        "build": "@php vendor/bin/testbench workbench:build --ansi",
-        "serve": [
-            "Composer\\Config::disableProcessTimeout",
-            "@php vendor/bin/testbench serve --ansi"
-        ],
-        "mcp": [
-            "Composer\\Config::disableProcessTimeout",
-            "@php vendor/bin/testbench mcp:start nova-mcp"
-        ],
-        "inspect": [
-            "Composer\\Config::disableProcessTimeout",
-            "@build",
-            "@php vendor/bin/testbench mcp:inspector nova-mcp"
-        ]
+  "name": "opscale-co/nova-mcp",
+  "description": "Enable a MCP server for your Laravel Nova package",
+  "keywords": [
+    "laravel",
+    "nova",
+    "package",
+    "tool",
+    "opscale"
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://nova.laravel.com"
     }
+  ],
+  "homepage": "https://github.com/opscale-co/nova-mcp",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Opscale",
+      "email": "development@opscale.co",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "butschster/dbml-parser": "^0.3.0",
+    "laravel/mcp": "^0.5.1",
+    "opscale-co/actions": "^1.0",
+    "opscale-co/nova-package-tools": "^1.0",
+    "spatie/laravel-query-builder": "^6.3",
+    "theriddleofenigma/laravel-model-validation": "^1.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Opscale\\NovaMCP\\": "src/",
+      "Workbench\\App\\": "workbench/app/",
+      "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+      "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Opscale\\NovaMCP\\Tests\\": "tests"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Opscale\\NovaMCP\\ToolServiceProvider"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require-dev": {
+    "laravel/nova": "^5.4",
+    "laravel/nova-devtool": "^1.0",
+    "phpunit/phpunit": "^10.5",
+    "tightenco/duster": "^2.7"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "@clear",
+      "@prepare"
+    ],
+    "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+    "prepare": "@php vendor/bin/testbench package:discover --ansi",
+    "build": "@php vendor/bin/testbench workbench:build --ansi",
+    "serve": [
+      "Composer\\Config::disableProcessTimeout",
+      "@php vendor/bin/testbench serve --ansi"
+    ],
+    "mcp": [
+      "Composer\\Config::disableProcessTimeout",
+      "@php vendor/bin/testbench mcp:start nova-mcp"
+    ],
+    "inspect": [
+      "Composer\\Config::disableProcessTimeout",
+      "@build",
+      "@php vendor/bin/testbench mcp:inspector nova-mcp"
+    ]
+  },
+  "version": "1.0.0"
 }
