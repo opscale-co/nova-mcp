@@ -2,6 +2,11 @@
 
 All notable changes to opscale-co/nova-api will be documented in this file.
 
+## 1.2.0 (2026-01-04)
+
+* Merge branch 'main' of https://github.com/opscale-co/nova-mcp ([05a61bb](https://github.com/opscale-co/nova-mcp/commit/05a61bb))
+* feat(promptsresolver): added prompts loading ([9be584a](https://github.com/opscale-co/nova-mcp/commit/9be584a))
+
 ## <small>1.1.2 (2026-01-04)</small>
 
 * Merge branch 'main' of https://github.com/opscale-co/nova-mcp ([e52c9d7](https://github.com/opscale-co/nova-mcp/commit/e52c9d7))
