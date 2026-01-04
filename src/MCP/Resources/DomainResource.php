@@ -9,11 +9,16 @@ use Laravel\Mcp\Server\Resource;
 use Opscale\NovaMCP\Contracts\DomainResolver;
 
 /**
- * Domain Resource - Provides DBML from DomainResolver with validation
+ * Domain Resource - Provides the domain schema for CRUD operations.
  *
- * This resource uses a DomainResolver implementation to get the complete
- * DBML schema with business descriptions, and validates it to ensure
- * quality and completeness of the documentation.
+ * This resource exposes the business domain model in DBML format, enabling
+ * understanding of:
+ * - Entity relationships and dependencies (which records require other records)
+ * - Required fields and data types for creating/updating records
+ * - Business context through notes explaining the purpose of each entity and field
+ *
+ * The schema is essential for performing accurate CRUD operations as it defines
+ * what information is needed when creating or modifying records.
  */
 class DomainResource extends Resource
 {
@@ -30,7 +35,7 @@ class DomainResource extends Resource
     /**
      * The resource description
      */
-    public string $description = 'Entity Relationship Diagram of the application domain in DBML format';
+    public string $description = 'Domain schema for CRUD operations - defines entities, their relationships, required fields, and what information is needed to manage records';
 
     /**
      * The resource MIME type
@@ -40,12 +45,12 @@ class DomainResource extends Resource
     /**
      * Domain resolver instance for providing DBML
      */
-    protected ?DomainResolver $domainResolver = null;
+    protected DomainResolver $domainResolver;
 
     /**
      * Constructor
      */
-    public function __construct(?DomainResolver $domainResolver = null)
+    public function __construct(DomainResolver $domainResolver)
     {
         $this->domainResolver = $domainResolver;
     }
@@ -55,10 +60,6 @@ class DomainResource extends Resource
      */
     public function handle(): Response
     {
-        if (! $this->domainResolver) {
-            return Response::error('DomainResolver is required but not configured. Please bind an implementation of DomainResolver in your service provider.');
-        }
-
         try {
             $dbml = $this->domainResolver->resolve();
 

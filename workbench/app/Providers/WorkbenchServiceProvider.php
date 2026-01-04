@@ -5,10 +5,12 @@ namespace Workbench\App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Opscale\NovaMCP\Contracts\DomainResolver;
 use Opscale\NovaMCP\Contracts\ProcessResolver;
-use Opscale\NovaMCP\MCP\Resources\DomainResource;
-use Opscale\NovaMCP\MCP\Resources\ProcessResource;
+use Opscale\NovaMCP\Contracts\ResourcesResolver;
+use Opscale\NovaMCP\Contracts\ToolsResolver;
 use Workbench\App\Resolvers\WorkbenchDomainResolver;
 use Workbench\App\Resolvers\WorkbenchProcessResolver;
+use Workbench\App\Resolvers\WorkbenchResourcesResolver;
+use Workbench\App\Resolvers\WorkbenchToolsResolver;
 
 class WorkbenchServiceProvider extends ServiceProvider
 {
@@ -17,20 +19,9 @@ class WorkbenchServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Bind the DomainResolver implementation
         $this->app->singleton(DomainResolver::class, WorkbenchDomainResolver::class);
-
-        // Bind the ProcessResolver implementation
         $this->app->singleton(ProcessResolver::class, WorkbenchProcessResolver::class);
-
-        // Bind DomainResource with the resolver
-        $this->app->when(DomainResource::class)
-            ->needs(DomainResolver::class)
-            ->give(WorkbenchDomainResolver::class);
-
-        // Bind ProcessResource with the resolver
-        $this->app->when(ProcessResource::class)
-            ->needs(ProcessResolver::class)
-            ->give(WorkbenchProcessResolver::class);
+        $this->app->singleton(ResourcesResolver::class, WorkbenchResourcesResolver::class);
+        $this->app->singleton(ToolsResolver::class, WorkbenchToolsResolver::class);
     }
 }

@@ -3,6 +3,8 @@
 namespace Opscale\NovaMCP\MCP;
 
 use Laravel\Mcp\Server;
+use Laravel\Mcp\Server\Contracts\Transport;
+use Opscale\NovaMCP\Contracts\ToolsResolver;
 use Opscale\NovaMCP\MCP\Prompts\BusinessTaskPrompt;
 use Opscale\NovaMCP\MCP\Resources\DomainResource;
 use Opscale\NovaMCP\MCP\Resources\ProcessResource;
@@ -11,6 +13,12 @@ use Opscale\NovaMCP\MCP\Tools\DeleteTool;
 use Opscale\NovaMCP\MCP\Tools\ReadTool;
 use Opscale\NovaMCP\MCP\Tools\UpdateTool;
 
+/**
+ * Platform Server
+ *
+ * MCP server that provides platform capabilities including
+ * CRUD tools, dynamic resources, and business prompts.
+ */
 class PlatformServer extends Server
 {
     /**
@@ -29,18 +37,27 @@ class PlatformServer extends Server
     protected string $instructions = <<<'INSTRUCTIONS'
 This server provides access to your platform capabilities, mirroring what you can do in the web application.
 
-You can perform two types of tasks:
-1. Managing Records: Add, view, update, and remove information (employees, clients, products, orders, etc.)
-2. Business Tasks: Perform your actual work tasks (approve, send, process, complete)
+## Available Capabilities
 
-Available Resources:
-- domain://dbml - Business domain model with all entities and relationships
-- process://bpmn - Business processes and workflows in BPMN 2.0 format
+### Tools
+- **CRUD Tools**: create, read, update, delete - for managing records (users, products, orders, etc.)
+- **Business Logic Tools**: reset-password, send-welcome-email - for executing business actions
 
-Available Prompts:
-- business-tasks - Guide to performing business tasks
+### Resources (read these to understand the system)
+- **process://bpmn** - Business process definitions in BPMN 2.0 format. Read this to understand the sequence of steps for any business task.
+- **domain://dbml** - Domain schema defining all entities and their relationships. Read this to understand what data is needed.
 
-Use the tools to manage records and execute business tasks just like you would in the web application.
+### Prompts
+- **Business Task Completion** - Use this prompt with a task description to execute a complete business workflow.
+
+## How to Use
+
+1. **To understand a business process**: Read the process://bpmn resource
+2. **To understand data requirements**: Read the domain://dbml resource
+3. **To manage data**: Use CRUD tools (create, read, update, delete)
+4. **To execute business logic**: Use logic tools (reset-password, send-welcome-email)
+
+When executing business tasks, always read the BPMN process first to understand the required sequence of operations.
 INSTRUCTIONS;
 
     /**
@@ -73,4 +90,14 @@ INSTRUCTIONS;
     protected array $prompts = [
         BusinessTaskPrompt::class,
     ];
+
+    /**
+     * Create a new Platform Server instance.
+     */
+    public function __construct(Transport $transport, ToolsResolver $toolsResolver)
+    {
+        parent::__construct($transport);
+
+        $this->tools = array_merge($this->tools, $toolsResolver->resolve());
+    }
 }

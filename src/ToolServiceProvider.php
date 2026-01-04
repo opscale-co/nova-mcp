@@ -3,7 +3,6 @@
 namespace Opscale\NovaMCP;
 
 use Laravel\Mcp\Facades\Mcp;
-use Opscale\NovaMCP\Console\Commands\SyncResources;
 use Opscale\NovaMCP\MCP\PlatformServer;
 use Opscale\NovaPackageTools\NovaPackageServiceProvider;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
@@ -15,11 +14,8 @@ class ToolServiceProvider extends NovaPackageServiceProvider
     {
         $package
             ->name('nova-mcp')
-            ->hasConfigFile('nova-mcp')
-            ->hasCommand(SyncResources::class)
             ->hasInstallCommand(function (InstallCommand $installCommand): void {
                 $installCommand
-                    ->publishConfigFile()
                     ->askToStarRepoOnGitHub('opscale-co/nova-mcp');
             });
     }

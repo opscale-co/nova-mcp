@@ -8,11 +8,16 @@ use Laravel\Mcp\Server\Resource;
 use Opscale\NovaMCP\Contracts\ProcessResolver;
 
 /**
- * Process Resource - Provides BPMN 2.0 XML from ProcessResolver with validation
+ * Process Resource - Provides business processes for logic operations.
  *
- * This resource uses a ProcessResolver implementation to get the complete
- * BPMN 2.0 (ISO 19510) XML schema describing business processes, and validates
- * it to ensure quality and completeness of the documentation.
+ * This resource exposes business process definitions in BPMN 2.0 format, enabling
+ * understanding of:
+ * - The sequence of actions required to complete a business task
+ * - Decision points and conditions that affect the workflow
+ * - Which operations (CRUD or tools) are needed at each step
+ *
+ * The process definitions help determine whether a task requires data management
+ * (CRUD operations) or business logic execution (tools), and in what order.
  */
 class ProcessResource extends Resource
 {
@@ -29,7 +34,7 @@ class ProcessResource extends Resource
     /**
      * The resource description
      */
-    public string $description = 'Business process definitions in BPMN 2.0 (ISO 19510) format';
+    public string $description = 'Business processes for logic operations - describes sequences of actions to complete tasks and helps determine if CRUD operations or tools are needed';
 
     /**
      * The resource MIME type
@@ -39,12 +44,12 @@ class ProcessResource extends Resource
     /**
      * Process resolver instance for providing BPMN XML
      */
-    protected ?ProcessResolver $processResolver = null;
+    protected ProcessResolver $processResolver;
 
     /**
      * Constructor
      */
-    public function __construct(?ProcessResolver $processResolver = null)
+    public function __construct(ProcessResolver $processResolver)
     {
         $this->processResolver = $processResolver;
     }
@@ -54,10 +59,6 @@ class ProcessResource extends Resource
      */
     public function handle(): Response
     {
-        if (! $this->processResolver) {
-            return Response::error('ProcessResolver is required but not configured. Please bind an implementation of ProcessResolver in your service provider.');
-        }
-
         try {
             $bpmnXml = $this->processResolver->resolve();
 
