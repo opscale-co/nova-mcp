@@ -4,14 +4,15 @@ namespace Opscale\NovaMCP\MCP;
 
 use Laravel\Mcp\Server;
 use Laravel\Mcp\Server\Contracts\Transport;
+use Opscale\NovaMCP\Contracts\ResourcesResolver;
 use Opscale\NovaMCP\Contracts\ToolsResolver;
 use Opscale\NovaMCP\MCP\Prompts\BusinessTaskPrompt;
 use Opscale\NovaMCP\MCP\Resources\DomainResource;
 use Opscale\NovaMCP\MCP\Resources\ProcessResource;
-use Opscale\NovaMCP\MCP\Tools\CreateTool;
-use Opscale\NovaMCP\MCP\Tools\DeleteTool;
-use Opscale\NovaMCP\MCP\Tools\ReadTool;
-use Opscale\NovaMCP\MCP\Tools\UpdateTool;
+use Opscale\NovaMCP\MCP\Tools\CreateResource;
+use Opscale\NovaMCP\MCP\Tools\DeleteResource;
+use Opscale\NovaMCP\MCP\Tools\ReadResource;
+use Opscale\NovaMCP\MCP\Tools\UpdateResource;
 
 /**
  * Platform Server
@@ -66,10 +67,10 @@ INSTRUCTIONS;
      * @var array<int, class-string<\Laravel\Mcp\Server\Tool>>
      */
     protected array $tools = [
-        CreateTool::class,
-        ReadTool::class,
-        UpdateTool::class,
-        DeleteTool::class,
+        CreateResource::class,
+        ReadResource::class,
+        UpdateResource::class,
+        DeleteResource::class,
     ];
 
     /**
@@ -94,10 +95,19 @@ INSTRUCTIONS;
     /**
      * Create a new Platform Server instance.
      */
-    public function __construct(Transport $transport, ToolsResolver $toolsResolver)
-    {
+    public function __construct(
+        Transport $transport,
+        ?ToolsResolver $toolsResolver = null,
+        ?ResourcesResolver $resourcesResolver = null,
+    ) {
         parent::__construct($transport);
 
-        $this->tools = array_merge($this->tools, $toolsResolver->resolve());
+        if ($toolsResolver !== null) {
+            $this->tools = array_merge($this->tools, $toolsResolver->resolve());
+        }
+
+        if ($resourcesResolver !== null) {
+            $this->resources = array_merge($this->resources, $resourcesResolver->resolve());
+        }
     }
 }

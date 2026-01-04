@@ -3,7 +3,7 @@
 namespace Opscale\NovaMCP\MCP\Concerns;
 
 use Exception;
-use Opscale\NovaMCP\Contracts\ResourcesResolver;
+use Opscale\NovaMCP\Contracts\ModelsResolver;
 
 trait ResolvesModel
 {
@@ -15,7 +15,7 @@ trait ResolvesModel
      */
     protected function resolveModelClass(string $resourceUri): ?string
     {
-        $resources = app(ResourcesResolver::class)->resolve();
+        $resources = app(ModelsResolver::class)->resolve();
 
         foreach ($resources as $resourceClass) {
             if (! class_exists($resourceClass)) {
@@ -68,7 +68,7 @@ trait ResolvesModel
      */
     protected function getAvailableResources(): array
     {
-        $resources = app(ResourcesResolver::class)->resolve();
+        $resources = app(ModelsResolver::class)->resolve();
         $availableUris = [];
 
         foreach ($resources as $resourceClass) {

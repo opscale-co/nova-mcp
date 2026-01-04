@@ -6,17 +6,16 @@ use Enigma\ValidatorTrait;
 use Exception;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Mcp\Request;
 use Laravel\Mcp\Response;
 use Laravel\Mcp\Server\Tool;
 use Opscale\NovaMCP\MCP\Concerns\ResolvesModel;
 
-class UpdateTool extends Tool
+class CreateResource extends Tool
 {
     use ResolvesModel;
-    protected string $description = 'Modify an existing item in your collection. Your changes will be automatically checked for correctness before saving.';
+    protected string $description = 'Add a new item to your collection. Your data will be automatically checked for correctness before saving.';
 
     /**
      * Define the input schema for the tool.
@@ -27,15 +26,11 @@ class UpdateTool extends Tool
     {
         return [
             'resource' => $schema->string()
-                ->description('The type of item you want to modify (e.g., "users", "posts", "orders")')
-                ->required(),
-
-            'id' => $schema->string()
-                ->description('The unique identifier of the item you want to update')
+                ->description('The type of item you want to add (e.g., "users", "posts", "orders")')
                 ->required(),
 
             'payload' => $schema->object()
-                ->description('The new information for this item. Only include the fields you want to change. Example: {"name": "Jane Doe", "email": "jane@example.com"}')
+                ->description('The information for your new item. Each field should have its corresponding value. Example: {"name": "John Doe", "email": "john@example.com"}')
                 ->required(),
         ];
     }
@@ -49,7 +44,6 @@ class UpdateTool extends Tool
             // Validate the request
             $validated = $request->validate([
                 'resource' => 'required|string',
-                'id' => 'required',
                 'payload' => 'required|array',
             ]);
 
@@ -63,7 +57,7 @@ class UpdateTool extends Tool
                     ? ' Available collections: ' . implode(', ', $availableResources)
                     : ' No collections are currently configured.';
 
-                return Response::error("The collection '{$resource}' you're trying to modify doesn't exist in the system." . $suggestion);
+                return Response::error("The collection '{$resource}' you're trying to add to doesn't exist in the system." . $suggestion);
             }
 
             if (! is_subclass_of($modelClass, Model::class)) {
@@ -75,24 +69,15 @@ class UpdateTool extends Tool
                 return Response::error("The collection '{$resource}' doesn't support automatic data validation. Please contact your system administrator.");
             }
 
-            // Find the existing model
-            try {
-                $model = $modelClass::findOrFail($validated['id']);
-            } catch (ModelNotFoundException $e) {
-                return Response::error("The item with ID '{$validated['id']}' could not be found in '{$resource}'.");
-            }
-
-            // Store the original data for comparison
-            $originalData = $model->toArray();
-
-            // Fill the model with new payload data
+            // Create a new model instance and fill with payload
+            $model = new $modelClass;
             $model->fill($validated['payload']);
 
             // Validate the model using ValidatorTrait
             try {
                 $model->validate();
             } catch (ValidationException $e) {
-                return Response::error('Some of the changes you made are invalid: ' . json_encode($e->errors()));
+                return Response::error('Some required information is missing or incorrect: ' . json_encode($e->errors()));
             }
 
             // Save the model
@@ -101,24 +86,20 @@ class UpdateTool extends Tool
             // Refresh to get any database defaults or computed values
             $model->refresh();
 
-            // Determine which fields were changed
-            $changedFields = array_keys(array_diff_assoc($model->toArray(), $originalData));
-
             return Response::json([
                 'success' => true,
-                'message' => 'Your item has been successfully updated',
+                'message' => 'Your item has been successfully added',
                 'data' => $model->toArray(),
                 'metadata' => [
                     'resource' => $resource,
                     'id' => $model->getKey(),
-                    'updated_at' => $model->updated_at?->toIso8601String(),
-                    'changed_fields' => $changedFields,
+                    'created_at' => $model->created_at?->toIso8601String(),
                 ],
             ]);
         } catch (ValidationException $e) {
-            return Response::error('The changes provided are incomplete or invalid: ' . json_encode($e->errors()));
+            return Response::error('The information provided is incomplete or invalid: ' . json_encode($e->errors()));
         } catch (Exception $e) {
-            return Response::error('Unable to update your item: ' . $e->getMessage());
+            return Response::error('Unable to add your item: ' . $e->getMessage());
         }
     }
 

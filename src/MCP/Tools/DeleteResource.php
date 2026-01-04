@@ -15,7 +15,7 @@ use Laravel\Mcp\Server\Tools\Annotations\IsDestructive;
 use Opscale\NovaMCP\MCP\Concerns\ResolvesModel;
 
 #[IsDestructive]
-class DeleteTool extends Tool
+class DeleteResource extends Tool
 {
     use ResolvesModel;
     protected string $description = 'Remove an item from your collection. This action cannot be undone unless the item is archived (soft delete).';

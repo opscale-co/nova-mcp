@@ -65,6 +65,7 @@ The MCP server runs automatically in local configuration. To enable it, you need
 Create implementations for the following resolver contracts in your service provider:
 
 ```php
+use Opscale\NovaMCP\Contracts\ModelsResolver;
 use Opscale\NovaMCP\Contracts\ResourcesResolver;
 use Opscale\NovaMCP\Contracts\ToolsResolver;
 use Opscale\NovaMCP\Contracts\DomainResolver;
@@ -75,10 +76,13 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // Nova resources available for CRUD operations
-        $this->app->singleton(ResourcesResolver::class, YourResourcesResolver::class);
+        $this->app->singleton(ModelsResolver::class, YourModelsResolver::class);
 
         // Business logic actions (opscale-co/actions)
         $this->app->singleton(ToolsResolver::class, YourToolsResolver::class);
+
+        // Custom MCP resources (optional)
+        $this->app->singleton(ResourcesResolver::class, YourResourcesResolver::class);
 
         // Domain schema in DBML format
         $this->app->singleton(DomainResolver::class, YourDomainResolver::class);
@@ -89,12 +93,12 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-### 2. Resources Resolver
+### 2. Models Resolver
 
 **Why:** Defines which Nova resources the AI can manage. Without this, the AI wouldn't know what data entities exist in your platform or how to create, read, update, or delete records.
 
 ```php
-class YourResourcesResolver implements ResourcesResolver
+class YourModelsResolver implements ModelsResolver
 {
     public function resolve(): array
     {
@@ -125,7 +129,24 @@ class YourToolsResolver implements ToolsResolver
 }
 ```
 
-### 4. Domain Resolver
+### 4. Resources Resolver (Optional)
+
+**Why:** Exposes custom MCP resources to the AI. Resources are read-only data sources that provide context to the AI, such as configuration files, documentation, or dynamic data feeds. These are combined with the default resources (domain and process).
+
+```php
+class YourResourcesResolver implements ResourcesResolver
+{
+    public function resolve(): array
+    {
+        return [
+            \App\MCP\Resources\InventoryResource::class,
+            \App\MCP\Resources\ReportsResource::class,
+        ];
+    }
+}
+```
+
+### 5. Domain Resolver
 
 **Why:** Provides the AI with your domain schema so it understands entity relationships, required fields, and data dependencies. This allows the AI to know that an Order requires a Customer, or that an Invoice needs line items.
 
@@ -139,7 +160,7 @@ class YourDomainResolver implements DomainResolver
 }
 ```
 
-### 5. Process Resolver
+### 6. Process Resolver
 
 **Why:** Defines your business workflows so the AI knows the correct sequence of steps for each task. Instead of guessing, the AI follows your documented processes - knowing that user registration requires creating an account, then resetting the password, then sending a welcome email.
 

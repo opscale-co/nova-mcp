@@ -5,18 +5,18 @@ namespace Opscale\NovaMCP\Contracts;
 interface ResourcesResolver
 {
     /**
-     * Resolve and return the array of Nova resource classes.
+     * Resolve and return the array of MCP resource classes.
      *
      * This method should return an array of fully qualified class names
-     * for Laravel Nova resources that should be exposed through CRUD tools.
+     * for MCP resources that should be exposed through the platform server.
      *
-     * @return array<int, class-string<\Laravel\Nova\Resource>>
+     * @return array<int, class-string<\Laravel\Mcp\Server\Resource>>
      *
      * @example
      * return [
-     *     \App\Nova\User::class,
-     *     \App\Nova\Post::class,
-     *     \App\Nova\Order::class,
+     *     \App\MCP\Resources\InventoryResource::class,
+     *     \App\MCP\Resources\ReportsResource::class,
+     *     \App\MCP\Resources\ConfigResource::class,
      * ];
      */
     public function resolve(): array;
