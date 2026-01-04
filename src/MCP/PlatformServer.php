@@ -4,6 +4,7 @@ namespace Opscale\NovaMCP\MCP;
 
 use Laravel\Mcp\Server;
 use Laravel\Mcp\Server\Contracts\Transport;
+use Opscale\NovaMCP\Contracts\PromptsResolver;
 use Opscale\NovaMCP\Contracts\ResourcesResolver;
 use Opscale\NovaMCP\Contracts\ToolsResolver;
 use Opscale\NovaMCP\MCP\Prompts\BusinessTaskPrompt;
@@ -99,6 +100,7 @@ INSTRUCTIONS;
         Transport $transport,
         ?ToolsResolver $toolsResolver = null,
         ?ResourcesResolver $resourcesResolver = null,
+        ?PromptsResolver $promptsResolver = null,
     ) {
         parent::__construct($transport);
 
@@ -108,6 +110,10 @@ INSTRUCTIONS;
 
         if ($resourcesResolver !== null) {
             $this->resources = array_merge($this->resources, $resourcesResolver->resolve());
+        }
+
+        if ($promptsResolver !== null) {
+            $this->prompts = array_merge($this->prompts, $promptsResolver->resolve());
         }
     }
 }
