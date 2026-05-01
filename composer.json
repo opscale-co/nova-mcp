@@ -53,14 +53,24 @@
     }
   },
   "config": {
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require-dev": {
+    "larastan/larastan": "^3.9",
     "laravel/nova": "^5.4",
     "laravel/nova-devtool": "^1.0",
+    "mockery/mockery": "^1.6",
+    "opscale-co/strict-rules": "^1.1",
+    "orchestra/testbench-dusk": "^9.19",
+    "pestphp/pest": "^2.36",
+    "pestphp/pest-plugin-laravel": "^2.4",
     "phpunit/phpunit": "^10.5",
+    "rector/rector": "^2.4",
     "tightenco/duster": "^2.7"
   },
   "scripts": {

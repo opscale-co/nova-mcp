@@ -1,7 +1,10 @@
 /.claude
 /.vscode
+/.data
+/bootstrap/cache
 /coverage-html
 /build
+/storage
 /vendor
 /node_modules
 composer.phar

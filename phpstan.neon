@@ -4,8 +4,61 @@ includes:
     - vendor/opscale-co/strict-rules/rules.ddd.neon
     - vendor/opscale-co/strict-rules/rules.smells.neon
     - vendor/opscale-co/strict-rules/rules.solid.neon
+
 parameters:
     level: 9
     phpVersion: 80200
     paths:
         - src
+        - tests
+        - workbench/app
+    excludePaths:
+        - tests/fixtures/*
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Service providers follow Laravel patterns that conflict with strict SOLID rules
+        -
+            message: '#.*#'
+            path: '*ServiceProvider.php'
+
+        # Tests require direct instantiation and helpers — strict DIP/helper rules don't apply
+        -
+            identifier: solid.dip.disallowInstantiation
+            path: tests/*
+        -
+            identifier: smells.helpersRestriction.helper
+            path: tests/*
+
+        # Controllers catch exceptions at HTTP boundary for JSON error responses
+        -
+            identifier: smells.enforceLogicHandling
+            path: src/Http/Controllers/*
+        -
+            identifier: smells.enforceLogicHandling.import
+            path: src/Http/Controllers/*
+        -
+            identifier: smells.noDummyCatches
+            path: src/Http/Controllers/*
+
+        # MCP Tools catch exceptions to return Response::error() at the MCP boundary
+        -
+            identifier: smells.enforceLogicHandling
+            path: src/MCP/Tools/*
+        -
+            identifier: smells.enforceLogicHandling.import
+            path: src/MCP/Tools/*
+        -
+            identifier: smells.noDummyCatches
+            path: src/MCP/Tools/*
+
+        # MCP Resources/Concerns also catch exceptions at boundary
+        -
+            identifier: smells.enforceLogicHandling
+            paths:
+                - src/MCP/Resources/*
+                - src/MCP/Concerns/*
+        -
+            identifier: smells.noDummyCatches
+            paths:
+                - src/MCP/Resources/*
+                - src/MCP/Concerns/*
