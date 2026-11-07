@@ -2,6 +2,20 @@
 
 All notable changes to opscale-co/nova-api will be documented in this file.
 
+## 2.0.0 (2026-11-07)
+
+* feat(laravel): require Laravel 13, drop Laravel 11/12 ([bb3f312](https://github.com/opscale-co/nova-mcp/commit/bb3f312))
+* Merge branch 'main' of https://github.com/opscale-co/nova-mcp ([e557e22](https://github.com/opscale-co/nova-mcp/commit/e557e22))
+* chore(testing): set up spec-kit, constitution, and Pest+Dusk test stack ([26b2518](https://github.com/opscale-co/nova-mcp/commit/26b2518))
+
+
+### BREAKING CHANGE
+
+* requires Laravel 13 and PHP 8.3; drops support for
+Laravel 11/12.
+
+Co-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>
+
 ## 1.2.0 (2026-01-04)
 
 * Merge branch 'main' of https://github.com/opscale-co/nova-mcp ([05a61bb](https://github.com/opscale-co/nova-mcp/commit/05a61bb))
