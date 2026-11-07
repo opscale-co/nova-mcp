@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Workbench\App\Resolvers;
 
+use Laravel\Nova\Resource;
 use Opscale\NovaMCP\Contracts\ModelsResolver;
 use Workbench\App\Nova\User;
 

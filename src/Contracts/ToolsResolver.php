@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\Contracts;
+
+use Opscale\Actions\Action;
 
 interface ToolsResolver
 {
@@ -11,7 +15,7 @@ interface ToolsResolver
      * for opscale-co/actions that represent business logic tasks (not CRUD).
      * These actions will be exposed as MCP tools for business task execution.
      *
-     * @return array<int, class-string<\Opscale\Actions\Action>>
+     * @return array<int, class-string<Action>>
      *
      * @example
      * return [

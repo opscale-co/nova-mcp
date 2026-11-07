@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\MCP\Tools;
 
 use Exception;
@@ -104,10 +106,10 @@ class ReadTool extends Tool
             if (! $modelClass) {
                 $availableResources = $this->getAvailableResources();
                 $suggestion = ! empty($availableResources)
-                    ? ' Available collections: ' . implode(', ', $availableResources)
+                    ? ' Available collections: '.implode(', ', $availableResources)
                     : ' No collections are currently configured.';
 
-                return Response::error("The collection '{$resource}' you're trying to access doesn't exist in the system." . $suggestion);
+                return Response::error("The collection '{$resource}' you're trying to access doesn't exist in the system.".$suggestion);
             }
 
             if (! is_subclass_of($modelClass, Model::class)) {
@@ -157,15 +159,15 @@ class ReadTool extends Tool
                 ],
             ]);
         } catch (ValidationException $e) {
-            return Response::error('The search criteria provided is invalid: ' . json_encode($e->errors()));
+            return Response::error('The search criteria provided is invalid: '.json_encode($e->errors()));
         } catch (InvalidFilterQuery $e) {
-            return Response::error('The filter you specified cannot be applied (JSON:API filter format required): ' . $e->getMessage());
+            return Response::error('The filter you specified cannot be applied (JSON:API filter format required): '.$e->getMessage());
         } catch (InvalidSortQuery $e) {
-            return Response::error('The sorting option you chose is not available (JSON:API sort format required): ' . $e->getMessage());
+            return Response::error('The sorting option you chose is not available (JSON:API sort format required): '.$e->getMessage());
         } catch (InvalidIncludeQuery $e) {
-            return Response::error('The related information you requested is not available (JSON:API include format required): ' . $e->getMessage());
+            return Response::error('The related information you requested is not available (JSON:API include format required): '.$e->getMessage());
         } catch (Exception $e) {
-            return Response::error('Unable to retrieve your items: ' . $e->getMessage());
+            return Response::error('Unable to retrieve your items: '.$e->getMessage());
         }
     }
 
@@ -207,7 +209,7 @@ class ReadTool extends Tool
         }
 
         // Create a new HTTP request with the query parameters
-        $httpRequest = HttpRequest::create('/' . $resource, 'GET', $query);
+        $httpRequest = HttpRequest::create('/'.$resource, 'GET', $query);
 
         return $httpRequest;
     }
@@ -222,7 +224,7 @@ class ReadTool extends Tool
         foreach (array_keys($filters) as $field) {
             // Support exact, partial, and scope filters
             // Check if model has a scope for this filter
-            $scopeMethod = 'scope' . Str::studly($field);
+            $scopeMethod = 'scope'.Str::studly($field);
 
             if (method_exists($modelClass, $scopeMethod)) {
                 $allowedFilters[] = AllowedFilter::scope($field);
@@ -253,10 +255,10 @@ class ReadTool extends Tool
             $fieldName = ltrim($field, '-');
 
             // Check if the model has a custom sort scope
-            $scopeMethod = 'scopeSortBy' . Str::studly($fieldName);
+            $scopeMethod = 'scopeSortBy'.Str::studly($fieldName);
 
             if (method_exists($modelClass, $scopeMethod)) {
-                $allowedSorts[] = AllowedSort::custom($fieldName, 'sortBy' . Str::studly($fieldName));
+                $allowedSorts[] = AllowedSort::custom($fieldName, 'sortBy'.Str::studly($fieldName));
             } else {
                 $allowedSorts[] = $fieldName;
             }
@@ -324,6 +326,6 @@ class ReadTool extends Tool
         $merged = array_merge($params, $override);
         $query = http_build_query($merged);
 
-        return '/' . $merged['resource'] . '?' . $query;
+        return '/'.$merged['resource'].'?'.$query;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\MCP\Tools;
 
 use Enigma\ValidatorTrait;
@@ -65,10 +67,10 @@ class UpdateTool extends Tool
             if (! $modelClass) {
                 $availableResources = $this->getAvailableResources();
                 $suggestion = ! empty($availableResources)
-                    ? ' Available collections: ' . implode(', ', $availableResources)
+                    ? ' Available collections: '.implode(', ', $availableResources)
                     : ' No collections are currently configured.';
 
-                return Response::error("The collection '{$resource}' you're trying to modify doesn't exist in the system." . $suggestion);
+                return Response::error("The collection '{$resource}' you're trying to modify doesn't exist in the system.".$suggestion);
             }
 
             if (! is_subclass_of($modelClass, Model::class)) {
@@ -97,7 +99,7 @@ class UpdateTool extends Tool
             try {
                 $model->validate();
             } catch (ValidationException $e) {
-                return Response::error('Some of the changes you made are invalid: ' . json_encode($e->errors()));
+                return Response::error('Some of the changes you made are invalid: '.json_encode($e->errors()));
             }
 
             // Save the model
@@ -121,9 +123,9 @@ class UpdateTool extends Tool
                 ],
             ]);
         } catch (ValidationException $e) {
-            return Response::error('The changes provided are incomplete or invalid: ' . json_encode($e->errors()));
+            return Response::error('The changes provided are incomplete or invalid: '.json_encode($e->errors()));
         } catch (Exception $e) {
-            return Response::error('Unable to update your item: ' . $e->getMessage());
+            return Response::error('Unable to update your item: '.$e->getMessage());
         }
     }
 

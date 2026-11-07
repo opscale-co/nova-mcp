@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\MCP;
 
 use Laravel\Mcp\Server;
 use Laravel\Mcp\Server\Contracts\Transport;
+use Laravel\Mcp\Server\Prompt;
+use Laravel\Mcp\Server\Tool;
 use Opscale\NovaMCP\Contracts\PromptsResolver;
 use Opscale\NovaMCP\Contracts\ResourcesResolver;
 use Opscale\NovaMCP\Contracts\ToolsResolver;
@@ -65,7 +69,7 @@ INSTRUCTIONS;
     /**
      * The tools registered with this MCP server.
      *
-     * @var array<int, class-string<\Laravel\Mcp\Server\Tool>>
+     * @var array<int, class-string<Tool>>
      */
     protected array $tools = [
         CreateTool::class,
@@ -77,7 +81,7 @@ INSTRUCTIONS;
     /**
      * The resources registered with this MCP server.
      *
-     * @var array<int, class-string<\Laravel\Mcp\Server\Resource>>
+     * @var array<int, class-string<Server\Resource>>
      */
     protected array $resources = [
         DomainResource::class,
@@ -87,7 +91,7 @@ INSTRUCTIONS;
     /**
      * The prompts registered with this MCP server.
      *
-     * @var array<int, class-string<\Laravel\Mcp\Server\Prompt>>
+     * @var array<int, class-string<Prompt>>
      */
     protected array $prompts = [
         BusinessTaskPrompt::class,

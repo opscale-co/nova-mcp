@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\Contracts;
+
+use Laravel\Mcp\Server\Resource;
 
 interface ResourcesResolver
 {

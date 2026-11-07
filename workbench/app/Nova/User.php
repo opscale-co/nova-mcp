@@ -1,17 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Workbench\App\Nova;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\MergeValue;
+use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Auth\PasswordValidationRules;
+use Laravel\Nova\Card;
+use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Filters\Filter;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Lenses\Lens;
+use Laravel\Nova\Panel;
+use Laravel\Nova\ResourceTool;
 use Override;
 
 /**
- * @extends Resource<\Workbench\App\Models\User>
+ * @extends resource<\Workbench\App\Models\User>
  */
 class User extends Resource
 {
@@ -43,7 +53,7 @@ class User extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @return array<int, \Laravel\Nova\Fields\Field|\Laravel\Nova\Panel|\Laravel\Nova\ResourceTool|\Illuminate\Http\Resources\MergeValue>
+     * @return array<int, Field|Panel|ResourceTool|MergeValue>
      */
     #[Override]
     final public function fields(NovaRequest $request): array
@@ -71,7 +81,7 @@ class User extends Resource
     /**
      * Get the cards available for the request.
      *
-     * @return array<int, \Laravel\Nova\Card>
+     * @return array<int, Card>
      */
     #[Override]
     final public function cards(NovaRequest $request): array
@@ -82,7 +92,7 @@ class User extends Resource
     /**
      * Get the filters available for the resource.
      *
-     * @return array<int, \Laravel\Nova\Filters\Filter>
+     * @return array<int, Filter>
      */
     #[Override]
     final public function filters(NovaRequest $request): array
@@ -93,7 +103,7 @@ class User extends Resource
     /**
      * Get the lenses available for the resource.
      *
-     * @return array<int, \Laravel\Nova\Lenses\Lens>
+     * @return array<int, Lens>
      */
     #[Override]
     final public function lenses(NovaRequest $request): array
@@ -104,7 +114,7 @@ class User extends Resource
     /**
      * Get the actions available for the resource.
      *
-     * @return array<int, \Laravel\Nova\Actions\Action>
+     * @return array<int, Action>
      */
     #[Override]
     final public function actions(NovaRequest $request): array

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Workbench\App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -20,7 +22,7 @@ class WelcomeNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Welcome to the Platform')
-            ->greeting('Hello ' . $notifiable->name . '!')
+            ->greeting('Hello '.$notifiable->name.'!')
             ->line('Welcome to our platform. We are excited to have you on board.')
             ->line('Thank you for joining us!');
     }

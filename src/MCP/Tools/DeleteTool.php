@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\MCP\Tools;
 
 use Exception;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Mcp\Request;
@@ -67,10 +70,10 @@ class DeleteTool extends Tool
             if (! $modelClass) {
                 $availableResources = $this->getAvailableResources();
                 $suggestion = ! empty($availableResources)
-                    ? ' Available collections: ' . implode(', ', $availableResources)
+                    ? ' Available collections: '.implode(', ', $availableResources)
                     : ' No collections are currently configured.';
 
-                return Response::error("The collection '{$resource}' you're trying to remove from doesn't exist in the system." . $suggestion);
+                return Response::error("The collection '{$resource}' you're trying to remove from doesn't exist in the system.".$suggestion);
             }
 
             if (! is_subclass_of($modelClass, Model::class)) {
@@ -124,17 +127,17 @@ class DeleteTool extends Tool
                 // Handle foreign key constraint violations and other database errors
                 if ($this->isForeignKeyConstraintError($e)) {
                     return Response::error(
-                        "Cannot remove the item with ID '{$validated['id']}' from '{$resource}' because it's connected to other items in your system. " .
+                        "Cannot remove the item with ID '{$validated['id']}' from '{$resource}' because it's connected to other items in your system. ".
                         'Please remove the related items first.'
                     );
                 }
 
-                return Response::error('A system error occurred while removing this item: ' . $e->getMessage());
+                return Response::error('A system error occurred while removing this item: '.$e->getMessage());
             }
         } catch (ValidationException $e) {
-            return Response::error('The deletion request is invalid: ' . json_encode($e->errors()));
+            return Response::error('The deletion request is invalid: '.json_encode($e->errors()));
         } catch (Exception $e) {
-            return Response::error('Unable to remove your item: ' . $e->getMessage());
+            return Response::error('Unable to remove your item: '.$e->getMessage());
         }
     }
 
@@ -145,7 +148,7 @@ class DeleteTool extends Tool
     {
         $traits = class_uses_recursive($modelClass);
 
-        return in_array(\Illuminate\Database\Eloquent\SoftDeletes::class, $traits);
+        return in_array(SoftDeletes::class, $traits);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\MCP\Resources;
 
 use Butschster\Dbml\DbmlParserFactory;
@@ -67,7 +69,7 @@ class DomainResource extends Resource
             $validationErrors = $this->validateDbml($dbml);
 
             if (! empty($validationErrors)) {
-                return Response::error('DBML validation failed: ' . implode('; ', $validationErrors));
+                return Response::error('DBML validation failed: '.implode('; ', $validationErrors));
             }
 
             return Response::text($dbml);
@@ -122,7 +124,7 @@ class DomainResource extends Resource
             }
 
             if (! empty($tablesWithoutNotes)) {
-                $errors[] = 'Tables missing notes: ' . implode(', ', $tablesWithoutNotes);
+                $errors[] = 'Tables missing notes: '.implode(', ', $tablesWithoutNotes);
             }
 
             // Validate column notes
@@ -130,7 +132,7 @@ class DomainResource extends Resource
             foreach ($schema->getTables() as $table) {
                 foreach ($table->getColumns() as $column) {
                     if (empty($column->getNote())) {
-                        $columnsWithoutNotes[] = $table->getName() . '.' . $column->getName();
+                        $columnsWithoutNotes[] = $table->getName().'.'.$column->getName();
                     }
                 }
             }
@@ -138,10 +140,10 @@ class DomainResource extends Resource
             if (! empty($columnsWithoutNotes)) {
                 $count = count($columnsWithoutNotes);
                 $sample = array_slice($columnsWithoutNotes, 0, 5);
-                $errors[] = "Columns missing notes ({$count} total, showing first 5): " . implode(', ', $sample);
+                $errors[] = "Columns missing notes ({$count} total, showing first 5): ".implode(', ', $sample);
             }
         } catch (Exception $e) {
-            $errors[] = 'DBML parse error: ' . $e->getMessage();
+            $errors[] = 'DBML parse error: '.$e->getMessage();
         }
 
         return $errors;

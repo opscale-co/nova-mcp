@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\Http\Middleware;
 
 use Illuminate\Http\Request;

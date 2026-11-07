@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Workbench\App\Resolvers;
 
+use Opscale\Actions\Action;
 use Opscale\NovaMCP\Contracts\ToolsResolver;
 use Workbench\App\Services\Actions\ResetPassword;
 use Workbench\App\Services\Actions\SendWelcomeEmail;
@@ -17,7 +20,7 @@ class WorkbenchToolsResolver implements ToolsResolver
     /**
      * Resolve and return the array of supported MCP tool classes.
      *
-     * @return array<int, class-string<\Opscale\Actions\Action>>
+     * @return array<int, class-string<Action>>
      */
     public function resolve(): array
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Workbench\App\Services\Actions;
 
 use Opscale\Actions\Action;
@@ -35,18 +37,30 @@ class SendWelcomeEmail extends Action
         ];
     }
 
-    public function handle(array $attributes = []): array
+    public function outputs(): array
     {
-        $this->fill($attributes);
-        $validatedData = $this->validateAttributes();
+        return [
+            [
+                'name' => 'message',
+                'description' => 'Human-readable summary.',
+                'type' => 'string',
+                'rules' => ['required', 'string'],
+            ],
+        ];
+    }
 
-        $user = User::where('email', $validatedData['email'])->firstOrFail();
+    public function handle(array $inputs = []): array
+    {
+        $user = User::where('email', $inputs['email'])->first();
+
+        if ($user === null) {
+            return $this->fail('User not found.');
+        }
 
         $user->notify(new WelcomeNotification);
 
-        return [
-            'success' => true,
-            'message' => 'Welcome email sent successfully',
-        ];
+        return $this->succeed([
+            'message' => 'Welcome email sent successfully.',
+        ]);
     }
 }

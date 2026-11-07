@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Workbench\App\Services\Actions;
 
 use Illuminate\Support\Facades\Hash;
@@ -47,20 +49,39 @@ class ResetPassword extends Action
         ];
     }
 
-    public function handle(array $attributes = []): array
+    public function outputs(): array
     {
-        $this->fill($attributes);
-        $validatedData = $this->validateAttributes();
+        return [
+            [
+                'name' => 'user_id',
+                'description' => 'ID of the user whose password was reset.',
+                'type' => 'integer',
+                'rules' => ['required', 'integer'],
+            ],
+            [
+                'name' => 'message',
+                'description' => 'Human-readable summary.',
+                'type' => 'string',
+                'rules' => ['required', 'string'],
+            ],
+        ];
+    }
 
-        $user = User::where('email', $validatedData['email'])->firstOrFail();
+    public function handle(array $inputs = []): array
+    {
+        $user = User::where('email', $inputs['email'])->first();
+
+        if ($user === null) {
+            return $this->fail('User not found.');
+        }
 
         $user->update([
-            'password' => Hash::make($validatedData['password']),
+            'password' => Hash::make($inputs['password']),
         ]);
 
-        return [
-            'success' => true,
-            'message' => 'Password reset successfully',
-        ];
+        return $this->succeed([
+            'user_id' => $user->getKey(),
+            'message' => 'Password reset successfully.',
+        ]);
     }
 }

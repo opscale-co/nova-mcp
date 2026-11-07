@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\MCP\Resources;
 
 use Exception;
@@ -66,7 +68,7 @@ class ProcessResource extends Resource
             $validationErrors = $this->validateBpmn($bpmnXml);
 
             if (! empty($validationErrors)) {
-                return Response::error('BPMN validation failed: ' . implode('; ', $validationErrors));
+                return Response::error('BPMN validation failed: '.implode('; ', $validationErrors));
             }
 
             return Response::text($bpmnXml);
@@ -114,7 +116,7 @@ class ProcessResource extends Resource
         // Validate process documentation
         $processesWithoutDocs = $this->getProcessesWithoutDocumentation($bpmnXml);
         if (! empty($processesWithoutDocs)) {
-            $errors[] = 'Processes missing documentation: ' . implode(', ', $processesWithoutDocs);
+            $errors[] = 'Processes missing documentation: '.implode(', ', $processesWithoutDocs);
         }
 
         // Validate task documentation
@@ -122,7 +124,7 @@ class ProcessResource extends Resource
         if (! empty($tasksWithoutDocs)) {
             $count = count($tasksWithoutDocs);
             $sample = array_slice($tasksWithoutDocs, 0, 5);
-            $errors[] = "Tasks missing documentation ({$count} total, showing first 5): " . implode(', ', $sample);
+            $errors[] = "Tasks missing documentation ({$count} total, showing first 5): ".implode(', ', $sample);
         }
 
         // Validate event documentation
@@ -130,7 +132,7 @@ class ProcessResource extends Resource
         if (! empty($eventsWithoutDocs)) {
             $count = count($eventsWithoutDocs);
             $sample = array_slice($eventsWithoutDocs, 0, 5);
-            $errors[] = "Events missing documentation ({$count} total, showing first 5): " . implode(', ', $sample);
+            $errors[] = "Events missing documentation ({$count} total, showing first 5): ".implode(', ', $sample);
         }
 
         // Validate gateway documentation
@@ -138,7 +140,7 @@ class ProcessResource extends Resource
         if (! empty($gatewaysWithoutDocs)) {
             $count = count($gatewaysWithoutDocs);
             $sample = array_slice($gatewaysWithoutDocs, 0, 5);
-            $errors[] = "Gateways missing documentation ({$count} total, showing first 5): " . implode(', ', $sample);
+            $errors[] = "Gateways missing documentation ({$count} total, showing first 5): ".implode(', ', $sample);
         }
 
         return $errors;

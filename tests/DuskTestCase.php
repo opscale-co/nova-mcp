@@ -4,11 +4,19 @@ declare(strict_types=1);
 
 namespace Opscale\NovaMCP\Tests;
 
+use Inertia\ServiceProvider;
 use Laravel\Dusk\Browser;
+use Laravel\Dusk\DuskServiceProvider;
+use Laravel\Fortify\FortifyServiceProvider;
+use Laravel\Mcp\Server\McpServiceProvider;
+use Laravel\Nova\NovaCoreServiceProvider;
+use Laravel\Nova\NovaServiceProvider;
+use Lorisleiva\Actions\ActionServiceProvider;
 use Opscale\NovaMCP\ToolServiceProvider;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\Dusk\TestCase as BaseTestCase;
 use Override;
+use Workbench\App\Providers\WorkbenchServiceProvider;
 
 abstract class DuskTestCase extends BaseTestCase
 {
@@ -20,15 +28,15 @@ abstract class DuskTestCase extends BaseTestCase
     protected function getPackageProviders($app): array
     {
         return array_merge(parent::getPackageProviders($app), [
-            \Inertia\ServiceProvider::class,
-            \Laravel\Nova\NovaCoreServiceProvider::class,
-            \Laravel\Nova\NovaServiceProvider::class,
-            \Laravel\Fortify\FortifyServiceProvider::class,
-            \Laravel\Dusk\DuskServiceProvider::class,
-            \Laravel\Mcp\Server\McpServiceProvider::class,
-            \Lorisleiva\Actions\ActionServiceProvider::class,
+            ServiceProvider::class,
+            NovaCoreServiceProvider::class,
+            NovaServiceProvider::class,
+            FortifyServiceProvider::class,
+            DuskServiceProvider::class,
+            McpServiceProvider::class,
+            ActionServiceProvider::class,
             \Opscale\Actions\ToolServiceProvider::class,
-            \Workbench\App\Providers\WorkbenchServiceProvider::class,
+            WorkbenchServiceProvider::class,
             \Workbench\App\Providers\NovaServiceProvider::class,
             ToolServiceProvider::class,
         ]);

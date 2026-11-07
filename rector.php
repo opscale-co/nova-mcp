@@ -5,6 +5,7 @@
 declare(strict_types=1);
 
 use Rector\Caching\ValueObject\Storage\FileCacheStorage;
+use Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector;
 use Rector\Config\RectorConfig;
 use Rector\PHPUnit\Set\PHPUnitSetList;
 use Rector\Set\ValueObject\SetList;
@@ -21,8 +22,8 @@ function phpSetup(): array
     return [
         'paths' => [
             // Basic library/package
-            __DIR__ . '/src',
-            __DIR__ . '/tests',
+            __DIR__.'/src',
+            __DIR__.'/tests',
         ],
         'sets' => [
             // Basic PHP rules
@@ -42,10 +43,10 @@ function phpSetup(): array
         ],
         'skip' => [
             // Tests fixtures
-            __DIR__ . '/tests/fixtures',
+            __DIR__.'/tests/fixtures',
 
             // Specific rules
-            Rector\CodeQuality\Rector\If_\SimplifyIfReturnBoolRector::class,
+            SimplifyIfReturnBoolRector::class,
         ],
     ];
 }
@@ -61,7 +62,7 @@ function laravelSetup(): array
 
     return [
         'paths' => array_merge($phpConfig['paths'], [
-            __DIR__ . '/src',
+            __DIR__.'/src',
         ]),
         'sets' => array_merge($phpConfig['sets'], [
             // Laravel specific rules

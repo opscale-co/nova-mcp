@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP;
 
 use Illuminate\Http\Request;
@@ -11,8 +13,8 @@ class Tool extends NovaTool
 {
     public function boot()
     {
-        Nova::script('nova-mcp', __DIR__ . '/../dist/js/tool.js');
-        Nova::style('nova-mcp', __DIR__ . '/../dist/css/tool.css');
+        Nova::script('nova-mcp', __DIR__.'/../dist/js/tool.js');
+        Nova::style('nova-mcp', __DIR__.'/../dist/css/tool.css');
     }
 
     public function menu(Request $request)

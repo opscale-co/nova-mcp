@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Opscale\NovaMCP\Contracts;
+
+use Laravel\Mcp\Server\Prompt;
 
 interface PromptsResolver
 {
@@ -10,7 +14,7 @@ interface PromptsResolver
      * This method should return an array of fully qualified class names
      * for MCP prompts that should be exposed through the platform server.
      *
-     * @return array<int, class-string<\Laravel\Mcp\Server\Prompt>>
+     * @return array<int, class-string<Prompt>>
      *
      * @example
      * return [

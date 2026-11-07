@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Workbench\App\Resolvers;
 
+use Laravel\Mcp\Server\Prompt;
 use Opscale\NovaMCP\Contracts\PromptsResolver;
 
 /**
@@ -15,7 +18,7 @@ class WorkbenchPromptsResolver implements PromptsResolver
     /**
      * Resolve and return the array of MCP prompt classes.
      *
-     * @return array<int, class-string<\Laravel\Mcp\Server\Prompt>>
+     * @return array<int, class-string<Prompt>>
      */
     public function resolve(): array
     {
